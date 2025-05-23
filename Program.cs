@@ -1,18 +1,22 @@
 ﻿using System.Text.RegularExpressions;
+using Agenda.Models;
 
 namespace Agenda;
 
-internal static class Program
+class Program
 {
 	private static void AddMenu()
 	{
+		string phone;
+		string email;
+
 		Console.Clear();
 		Console.WriteLine("\x1b[1m[Adicionar contato]\x1b[0m");
 		Console.Write("\nDigite o nome do contato: ");
 		var name = Console.ReadLine() ?? string.Empty;
 		// Phone input
 		Console.Write("\nDigite o telefone: ");
-		var phone = Console.ReadLine() ?? string.Empty;
+		phone = Console.ReadLine() ?? string.Empty;
 		if (!Regex.IsMatch(phone, "^[0-9]*$"))
 		{
 			Console.WriteLine("Operação inválida, utilize apenas números para adicionar o telefone.");
@@ -20,20 +24,15 @@ internal static class Program
 			AddMenu();
 		}
 		// Email input
-		const string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 		Console.Write("\nDigite o Email do contato: ");
-		var email = Console.ReadLine() ?? string.Empty;
-
-		if (!Regex.IsMatch(email, emailPattern))
+		email = Console.ReadLine() ?? string.Empty;
+		if (!Regex.IsMatch(email, ContactManager.emailPattern))
 		{
 			Console.WriteLine("Email inválido, utilize o formato nome@domínio.com");
 			Console.ReadKey();
-			AddMenu();
+			return;
 		}
-
-		Console.WriteLine($"Adicionando usuário...");
-		//FIXME: Um email inválido pode acabar passando pelo regex e ir p/ função.
-		Models.ContactManager.Addcontact(name, phone, email);
+		ContactManager.Addcontact(name, phone, email);
 	}
 
 	private static void ListMenu()
