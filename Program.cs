@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Agenda.Models;
+using Agenda.Services;
 
 namespace Agenda;
 
@@ -7,17 +8,17 @@ class Program
 {
 	private static void AddMenu()
 	{
-		string phone;
-		string email;
+		string phoneInput;
+		string emailInput;
 
 		Console.Clear();
 		Console.WriteLine("\x1b[1m[Adicionar contato]\x1b[0m");
 		Console.Write("\nDigite o nome do contato: ");
-		var name = Console.ReadLine() ?? string.Empty;
+		var nameInput = Console.ReadLine() ?? string.Empty;
 		// Phone input
 		Console.Write("\nDigite o telefone: ");
-		phone = Console.ReadLine() ?? string.Empty;
-		if (!Regex.IsMatch(phone, "^[0-9]*$"))
+		phoneInput = Console.ReadLine() ?? string.Empty;
+		if (!Regex.IsMatch(phoneInput, "^[0-9]*$"))
 		{
 			Console.WriteLine("Operação inválida, utilize apenas números para adicionar o telefone.");
 			Console.ReadKey();
@@ -25,14 +26,15 @@ class Program
 		}
 		// Email input
 		Console.Write("\nDigite o Email do contato: ");
-		email = Console.ReadLine() ?? string.Empty;
-		if (!Regex.IsMatch(email, ContactManager.emailPattern))
+		emailInput = Console.ReadLine() ?? string.Empty;
+		if (!Contact.EmailIsValid(emailInput))
 		{
 			Console.WriteLine("Email inválido, utilize o formato nome@domínio.com");
 			Console.ReadKey();
 			return;
 		}
-		ContactManager.Addcontact(name, phone, email);
+		Contact newContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
+		ContactManager.Addcontact(newContact);
 	}
 
 	private static void ListMenu()
