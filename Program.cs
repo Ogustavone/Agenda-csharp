@@ -33,14 +33,8 @@ class Program
 			Console.ReadKey();
 			return;
 		}
-		Contact newContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
-		ContactManager.Addcontact(newContact);
-	}
-
-	private static void ListMenu()
-	{
-		Console.WriteLine("\x1b[1m[Listar Contatos]\x1b[0m");
-		// TODO: ContactManager.showAllContacts()
+		Contact NewContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
+		ContactManager.AddContact(NewContact);
 	}
 
 	private static void Main()
@@ -68,7 +62,7 @@ class Program
 					Console.ReadKey();
 					break;
 				case 2:
-					ListMenu();
+					ContactManager.ShowAllContacts();
 					Console.ReadKey();
 					break;
 				case 3:
