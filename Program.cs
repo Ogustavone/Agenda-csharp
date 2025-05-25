@@ -33,8 +33,16 @@ class Program
 			Console.ReadKey();
 			return;
 		}
-		Contact NewContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
-		ContactManager.AddContact(NewContact);
+		Contact newContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
+		ContactManager.AddContact(newContact);
+	}
+
+	private static void SearchMenu()
+	{
+		Console.Clear();
+		Console.WriteLine("Digite o nome do contato: ");
+		var nameInput = Console.ReadLine() ?? string.Empty;
+		//TODO: ContactManager.SearchContact();
 	}
 
 	private static void Main()
@@ -66,7 +74,7 @@ class Program
 					Console.ReadKey();
 					break;
 				case 3:
-					//TODO: SearchMenu();
+					SearchMenu();
 					Console.ReadKey();
 					break;
 				case 4:

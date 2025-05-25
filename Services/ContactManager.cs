@@ -5,18 +5,18 @@ namespace Agenda.Services;
 
 class ContactManager
 {
-  public static void AddContact(Contact User)
+  public static void AddContact(Contact user)
   {
-    if (!Contact.EmailIsValid(User.Email))
+    if (!Contact.EmailIsValid(user.Email))
     {
       return;
     }
     Console.Clear();
-    Console.WriteLine($"Adicionando {User.Name}");
+    Console.WriteLine($"Adicionando {user.Name}");
     string jsonString = File.ReadAllText("Data/contactList.json");
-    List<Contact>? ContactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-    ContactList?.Add(User);
-    string newJson = JsonSerializer.Serialize(ContactList);
+    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+    contactList?.Add(user);
+    string newJson = JsonSerializer.Serialize(contactList);
     File.WriteAllText("Data/contactList.json", newJson);
   }
 
@@ -24,20 +24,27 @@ class ContactManager
   {
     Console.Clear();
     string jsonString = File.ReadAllText("Data/contactList.json");
-    List<Contact>? ContactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-    if (ContactList != null && ContactList.Count != 0)
+    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+    if (contactList != null && contactList.Count != 0)
     {
-      Console.WriteLine($"[{ContactList.Count} contatos encontrados.]\n");
-      foreach (var User in ContactList)
+      Console.WriteLine($"[{contactList.Count} contatos encontrados.]\n");
+      foreach (var user in contactList)
       {
-        Console.WriteLine($"Nome: {User.Name}");
-        Console.WriteLine($"\u2022 Email: {User.Email}");
-        Console.WriteLine($"\u2022 Telefone: {User.Phone}\n");
+        Console.WriteLine($"Nome: {user.Name}");
+        Console.WriteLine($"\u2022 Email: {user.Email}");
+        Console.WriteLine($"\u2022 Telefone: {user.Phone}\n");
       }
     }
     else
     {
       Console.WriteLine("Sem contatos disponíveis.");
     }
+  }
+
+  public static void SearchContact(string nameInput)
+  {
+    string jsonString = File.ReadAllText("Data/contactList.json");
+    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+    //TODO: Desserializar e encontrar nameInput, retorna todas informações formatadas
   }
 }
