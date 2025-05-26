@@ -40,9 +40,10 @@ class Program
 	private static void SearchMenu()
 	{
 		Console.Clear();
-		Console.WriteLine("Digite o nome do contato: ");
+		Console.Write("Digite o nome do contato: ");
 		var nameInput = Console.ReadLine() ?? string.Empty;
-		//TODO: ContactManager.SearchContact();
+		Console.WriteLine("-------------------------\n");
+		ContactManager.SearchContact(nameInput);
 	}
 
 	private static void Main()
@@ -55,7 +56,7 @@ class Program
 			Console.WriteLine("===========================");
 			Console.WriteLine("\x1b[1m 1.\x1b[0m Adicionar contato");
 			Console.WriteLine("\x1b[1m 2.\x1b[0m Listar contatos");
-			Console.WriteLine("\x1b[1m 3.\x1b[0m Buscar contato [n/a]");
+			Console.WriteLine("\x1b[1m 3.\x1b[0m Buscar contato");
 			Console.WriteLine("\x1b[1m 4.\x1b[0m Editar contato [n/a]");
 			Console.WriteLine("\x1b[1m 5.\x1b[0m Remover contato [n/a]");
 			Console.WriteLine("\x1b[1m 6.\x1b[0m Sair");

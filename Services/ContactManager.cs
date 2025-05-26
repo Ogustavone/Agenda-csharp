@@ -45,6 +45,23 @@ class ContactManager
   {
     string jsonString = File.ReadAllText("Data/contactList.json");
     List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-    //TODO: Desserializar e encontrar nameInput, retorna todas informações formatadas
+    if (contactList != null)
+    {
+      List<Contact> filteredContacts = [.. contactList
+      .Where(user => user.Name
+      .Contains(nameInput, StringComparison.CurrentCultureIgnoreCase))];
+
+      if (filteredContacts.Count <= 0)
+      {
+        Console.WriteLine("Não foram encontrados usuários");
+        return;
+      }
+      foreach (var user in filteredContacts)
+      {
+        Console.WriteLine($"Nome: {user.Name}");
+        Console.WriteLine($"\u2022 Email: {user.Email}");
+        Console.WriteLine($"\u2022 Telefone: {user.Phone}\n");
+      }
+    }
   }
 }
