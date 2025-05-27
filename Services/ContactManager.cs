@@ -5,6 +5,17 @@ namespace Agenda.Services;
 
 class ContactManager
 {
+  /// <summary>
+  /// Returns a list of contacts from JSON file.
+  /// </summary>
+  /// <returns>List of classes(Contact) or empty list if null.</returns>
+  private static List<Contact> GetContacts()
+  {
+    string jsonString = File.ReadAllText("Data/contactList.json");
+    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+    return contactList ?? [];
+  }
+
   public static void AddContact(Contact user)
   {
     if (!Contact.EmailIsValid(user.Email))
@@ -13,9 +24,8 @@ class ContactManager
     }
     Console.Clear();
     Console.WriteLine($"Adicionando {user.Name}");
-    string jsonString = File.ReadAllText("Data/contactList.json");
-    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-    contactList?.Add(user);
+    var contactList = GetContacts();
+    contactList.Add(user);
     string newJson = JsonSerializer.Serialize(contactList);
     File.WriteAllText("Data/contactList.json", newJson);
   }
@@ -23,8 +33,7 @@ class ContactManager
   public static void ShowAllContacts()
   {
     Console.Clear();
-    string jsonString = File.ReadAllText("Data/contactList.json");
-    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+    var contactList = GetContacts();
     if (contactList != null && contactList.Count != 0)
     {
       Console.WriteLine($"[{contactList.Count} contatos encontrados.]\n");
