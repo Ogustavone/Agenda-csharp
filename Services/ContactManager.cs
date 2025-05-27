@@ -1,5 +1,6 @@
 using Agenda.Models;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Agenda.Services;
 
@@ -14,6 +15,25 @@ class ContactManager
     string jsonString = File.ReadAllText("Data/contactList.json");
     List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
     return contactList ?? [];
+  }
+
+  /// <summary>
+  /// Gets a single contact from JSON file
+  /// Returns null when not found.
+  /// </summary>
+  /// <returns>Object(Contact) or null</returns>
+  private static Contact? GetContactByEmail(string emailInput)
+  {
+    var contactList = GetContacts();
+    List<Contact> filteredContacts = [.. contactList
+    .Where(user => user.Email.Equals(emailInput))];
+
+    if (filteredContacts.Count == 0)
+    {
+      return null;
+    }
+    Contact user = filteredContacts[0];
+    return user;
   }
 
   public static void AddContact(Contact user)
@@ -72,10 +92,61 @@ class ContactManager
 
   public static void EditContact(string emailInput)
   {
-    //TODO: verifica email existente na lista,
-    // input pra qual atributo mudar,
-    // input pra qual nova entrada,
-    // atualiza lista e salva
+    Console.Clear();
+    Contact? user = GetContactByEmail(emailInput);
+    if (user == null)
+    {
+      Console.WriteLine("Usuário não encontrado...");
+      return;
+    }
+    Console.WriteLine($"Nome: {user.Name}");
+    Console.WriteLine($"\u2022 Email: {user.Email}");
+    Console.WriteLine($"\u2022 Telefone: {user.Phone}\n");
+    Console.Write("Qual atributo você deseja alterar (Email/Telefone)? ");
+    var selectionInput = Console.ReadLine() ?? string.Empty;
+    var contactList = GetContacts();
+
+    if (selectionInput.Equals("telefone", StringComparison.OrdinalIgnoreCase))
+    {
+      Console.Write("\nDigite o novo telefone: ");
+      var phoneInput = Console.ReadLine() ?? string.Empty;
+      if (!Regex.IsMatch(phoneInput, "^[0-9]*$"))
+      {
+        Console.WriteLine("Entrada inválida, utilize apenas números para adicionar o telefone.");
+        return;
+      }
+
+      var index = contactList.FindIndex(c => c.Email.Equals(user.Email));
+      if (index != -1)
+      {
+        contactList[index].Phone = phoneInput;
+      }
+    }
+    else if (selectionInput.Equals("email", StringComparison.OrdinalIgnoreCase))
+    {
+      Console.Write("Digine o novo email: ");
+      emailInput = Console.ReadLine() ?? string.Empty;
+      if (!Contact.EmailIsValid(emailInput))
+      {
+        Console.WriteLine("Email inválido, utilize o formato nome@domínio.com");
+        return;
+      }
+      
+      var index = contactList.FindIndex(c => c.Email.Equals(user.Email));
+      if (index != -1)
+      {
+        contactList[index].Email = emailInput;
+      }
+    }
+    else
+    {
+      Console.WriteLine("Atributo inválido.");
+      return;
+    }
+
+    string newJson = JsonSerializer.Serialize(contactList);
+    File.WriteAllText("Data/contactList.json", newJson);
+    Console.WriteLine("Contato atualizado com sucesso!");
   }
 
   public static void RemoveContact(string emailInput)
