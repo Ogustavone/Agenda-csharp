@@ -2,3 +2,4 @@ obj/
 bin/
 *.json
 .vscode/
+!Data/*.json
