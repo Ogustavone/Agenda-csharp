@@ -64,4 +64,19 @@ class ContactManager
       }
     }
   }
+
+  public static void EditContact(string emailInput)
+  {
+    //TODO: verifica email existente na lista,
+    // input pra qual atributo mudar,
+    // input pra qual nova entrada,
+    // atualiza lista e salva
+  }
+
+  public static void RemoveContact(string emailInput)
+  {
+    //TODO: verifica email existente na lista,
+    // remove contato da lista
+    // salva lista
+  }
 }
