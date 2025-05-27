@@ -34,7 +34,7 @@ class ContactManager
   {
     Console.Clear();
     var contactList = GetContacts();
-    if (contactList != null && contactList.Count != 0)
+    if (contactList.Count != 0)
     {
       Console.WriteLine($"[{contactList.Count} contatos encontrados.]\n");
       foreach (var user in contactList)
@@ -52,25 +52,21 @@ class ContactManager
 
   public static void SearchContact(string nameInput)
   {
-    string jsonString = File.ReadAllText("Data/contactList.json");
-    List<Contact>? contactList = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-    if (contactList != null)
-    {
-      List<Contact> filteredContacts = [.. contactList
-      .Where(user => user.Name
-      .Contains(nameInput, StringComparison.CurrentCultureIgnoreCase))];
+    var contactList = GetContacts();
+    List<Contact> filteredContacts = [.. contactList
+    .Where(user => user.Name
+    .Contains(nameInput, StringComparison.CurrentCultureIgnoreCase))];
 
-      if (filteredContacts.Count <= 0)
-      {
-        Console.WriteLine("Não foram encontrados usuários");
-        return;
-      }
-      foreach (var user in filteredContacts)
-      {
-        Console.WriteLine($"Nome: {user.Name}");
-        Console.WriteLine($"\u2022 Email: {user.Email}");
-        Console.WriteLine($"\u2022 Telefone: {user.Phone}\n");
-      }
+    if (filteredContacts.Count <= 0)
+    {
+      Console.WriteLine("Não foram encontrados usuários");
+      return;
+    }
+    foreach (var user in filteredContacts)
+    {
+      Console.WriteLine($"Nome: {user.Name}");
+      Console.WriteLine($"\u2022 Email: {user.Email}");
+      Console.WriteLine($"\u2022 Telefone: {user.Phone}\n");
     }
   }
 
