@@ -20,9 +20,9 @@ class Program
 		phoneInput = Console.ReadLine() ?? string.Empty;
 		if (!Regex.IsMatch(phoneInput, "^[0-9]*$"))
 		{
-			Console.WriteLine("Operação inválida, utilize apenas números para adicionar o telefone.");
+			Console.WriteLine("Entrada inválida, utilize apenas números para adicionar o telefone.");
 			Console.ReadKey();
-			AddMenu();
+			return;
 		}
 		// Email input
 		Console.Write("\nDigite o Email do contato: ");
@@ -51,7 +51,7 @@ class Program
 		Console.Clear();
 		Console.Write("Digite o email do contato: ");
 		var emailInput = Console.ReadLine() ?? string.Empty;
-		ContactManager.SearchContact(emailInput);
+		ContactManager.EditContact(emailInput);
 	}
 
 	private static void RemoveMenu()
