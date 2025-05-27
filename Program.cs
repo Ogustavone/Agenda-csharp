@@ -33,7 +33,7 @@ class Program
 			Console.ReadKey();
 			return;
 		}
-		Contact newContact = new() { Name=nameInput, Phone=phoneInput, Email=emailInput };
+		Contact newContact = new() { Name = nameInput, Phone = phoneInput, Email = emailInput };
 		ContactManager.AddContact(newContact);
 	}
 
@@ -44,6 +44,22 @@ class Program
 		var nameInput = Console.ReadLine() ?? string.Empty;
 		Console.WriteLine("-------------------------\n");
 		ContactManager.SearchContact(nameInput);
+	}
+
+	private static void EditMenu()
+	{
+		Console.Clear();
+		Console.Write("Digite o email do contato: ");
+		var emailInput = Console.ReadLine() ?? string.Empty;
+		ContactManager.SearchContact(emailInput);
+	}
+
+	private static void RemoveMenu()
+	{
+		Console.Clear();
+		Console.Write("Digite o email do contato: ");
+		var emailInput = Console.ReadLine() ?? string.Empty;
+		ContactManager.RemoveContact(emailInput);
 	}
 
 	private static void Main()
@@ -57,8 +73,8 @@ class Program
 			Console.WriteLine("\x1b[1m 1.\x1b[0m Adicionar contato");
 			Console.WriteLine("\x1b[1m 2.\x1b[0m Listar contatos");
 			Console.WriteLine("\x1b[1m 3.\x1b[0m Buscar contato");
-			Console.WriteLine("\x1b[1m 4.\x1b[0m Editar contato [n/a]");
-			Console.WriteLine("\x1b[1m 5.\x1b[0m Remover contato [n/a]");
+			Console.WriteLine("\x1b[1m 4.\x1b[0m Editar contato");
+			Console.WriteLine("\x1b[1m 5.\x1b[0m Remover contato");
 			Console.WriteLine("\x1b[1m 6.\x1b[0m Sair");
 			Console.WriteLine("===========================");
 			Console.Write("\nEscolha uma opção: ");
@@ -79,11 +95,11 @@ class Program
 					Console.ReadKey();
 					break;
 				case 4:
-					// TODO: EditMenu();
+					EditMenu();
 					Console.ReadKey();
 					break;
 				case 5:
-					// TODO: RemoveMenu();
+					RemoveMenu();
 					Console.ReadKey();
 					break;
 				case 6:
