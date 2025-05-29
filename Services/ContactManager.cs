@@ -131,7 +131,7 @@ class ContactManager
         Console.WriteLine("Email inválido, utilize o formato nome@domínio.com");
         return;
       }
-      
+
       var index = contactList.FindIndex(c => c.Email.Equals(user.Email));
       if (index != -1)
       {
@@ -151,8 +151,27 @@ class ContactManager
 
   public static void RemoveContact(string emailInput)
   {
-    //TODO: verifica email existente na lista,
-    // remove contato da lista
-    // salva lista
+    Console.Clear();
+    Contact? user = GetContactByEmail(emailInput);
+    if (user == null)
+    {
+      Console.WriteLine("Usuário não encontrado...");
+      return;
+    }
+
+    Console.Write($"Tem certeza que deseja remover {user.Name}? (s/n): ");
+    var confirmation = Console.ReadLine() ?? string.Empty;
+    bool continueCheck = confirmation.Equals("s", StringComparison.OrdinalIgnoreCase);
+
+    var contactList = GetContacts();
+    var index = contactList.FindIndex(c => c.Email.Equals(user.Email));
+    if (index != -1 || continueCheck)
+    {
+      contactList.RemoveAt(index);
+    }
+
+    string newJson = JsonSerializer.Serialize(contactList);
+    File.WriteAllText("Data/contactList.json", newJson);
+    Console.WriteLine($"{user.Name} removido com sucesso.");
   }
 }
