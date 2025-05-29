@@ -12,7 +12,7 @@ class Program
 		string emailInput;
 
 		Console.Clear();
-		Console.WriteLine("\x1b[1m[Adicionar contato]\x1b[0m");
+		Console.WriteLine("[Adicionar contato]");
 		Console.Write("\nDigite o nome do contato: ");
 		var nameInput = Console.ReadLine() ?? string.Empty;
 		// Phone input
@@ -68,14 +68,14 @@ class Program
 		while (!exit)
 		{
 			Console.Clear();
-			Console.WriteLine("\x1b[1m[Gerenciamento de Contatos]\x1b[0m");
+			Console.WriteLine("[Gerenciamento de Contatos]");
 			Console.WriteLine("===========================");
-			Console.WriteLine("\x1b[1m 1.\x1b[0m Adicionar contato");
-			Console.WriteLine("\x1b[1m 2.\x1b[0m Listar contatos");
-			Console.WriteLine("\x1b[1m 3.\x1b[0m Buscar contato");
-			Console.WriteLine("\x1b[1m 4.\x1b[0m Editar contato");
-			Console.WriteLine("\x1b[1m 5.\x1b[0m Remover contato");
-			Console.WriteLine("\x1b[1m 6.\x1b[0m Sair");
+			Console.WriteLine(" 1. Adicionar contato");
+			Console.WriteLine(" 2. Listar contatos");
+			Console.WriteLine(" 3. Buscar contato");
+			Console.WriteLine(" 4. Editar contato");
+			Console.WriteLine(" 5. Remover contato");
+			Console.WriteLine(" 6. Sair");
 			Console.WriteLine("===========================");
 			Console.Write("\nEscolha uma opção: ");
 			var option = int.Parse(Console.ReadLine() ?? string.Empty);
