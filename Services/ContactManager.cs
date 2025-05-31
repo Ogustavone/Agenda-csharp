@@ -25,23 +25,12 @@ class ContactManager
   private static Contact? GetContactByEmail(string emailInput)
   {
     var contactList = GetContacts();
-    List<Contact> filteredContacts = [.. contactList
-    .Where(user => user.Email.Equals(emailInput))];
-
-    if (filteredContacts.Count == 0)
-    {
-      return null;
-    }
-    Contact user = filteredContacts[0];
-    return user;
+    return contactList.FirstOrDefault(c => c.Email == emailInput);
   }
 
   public static void AddContact(Contact user)
   {
-    if (!Contact.EmailIsValid(user.Email))
-    {
-      return;
-    }
+    if (!Contact.EmailIsValid(user.Email)) return;
     Console.Clear();
     Console.WriteLine($"Adicionando {user.Name}");
     var contactList = GetContacts();
@@ -73,9 +62,8 @@ class ContactManager
   public static void SearchContact(string nameInput)
   {
     var contactList = GetContacts();
-    List<Contact> filteredContacts = [.. contactList
-    .Where(user => user.Name
-    .Contains(nameInput, StringComparison.CurrentCultureIgnoreCase))];
+    var filteredContacts = contactList.Where(user => user.Name
+    .Contains(nameInput, StringComparison.CurrentCultureIgnoreCase)).ToList();
 
     if (filteredContacts.Count <= 0)
     {
@@ -165,7 +153,7 @@ class ContactManager
 
     var contactList = GetContacts();
     var index = contactList.FindIndex(c => c.Email.Equals(user.Email));
-    if (index != -1 || continueCheck)
+    if (index != -1 && continueCheck)
     {
       contactList.RemoveAt(index);
     }
